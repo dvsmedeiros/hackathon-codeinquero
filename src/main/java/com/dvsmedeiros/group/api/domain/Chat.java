@@ -4,15 +4,11 @@ import java.util.List;
 
 import com.dvsmedeiros.bce.domain.DomainEntity;
 
-
-
 public class Chat extends DomainEntity {
 	private List<Link> linkList;
-	private List<Member> participantList;
-	private String groupName;
+	private List<Member> memberList;
+	private String chatName;
 	private String photo;
-
-	// Buscar como dever� ser implementado a Localiza��o
 
 	public List<Link> getLinkList() {
 		return linkList;
@@ -22,20 +18,20 @@ public class Chat extends DomainEntity {
 		this.linkList = linkList;
 	}
 
-	public List<Member> getParticipantList() {
-		return participantList;
+	public List<Member> getMemberList() {
+		return memberList;
 	}
 
-	public void setParticipantList(List<Member> participantList) {
-		this.participantList = participantList;
+	public void setMemberList(List<Member> memberList) {
+		this.memberList = memberList;
 	}
 
-	public String getGroupName() {
-		return groupName;
+	public String getChatName() {
+		return chatName;
 	}
 
-	public void setGroupName(String groupName) {
-		this.groupName = groupName;
+	public void setChatName(String chatName) {
+		this.chatName = chatName;
 	}
 
 	public String getPhoto() {
@@ -45,5 +41,7 @@ public class Chat extends DomainEntity {
 	public void setPhoto(String photo) {
 		this.photo = photo;
 	}
+
+	// Buscar como dever� ser implementado a Localiza��o
 
 }

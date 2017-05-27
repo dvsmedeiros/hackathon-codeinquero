@@ -53,6 +53,24 @@ public class ContentController extends BaseController{
 		}
 		return responseEntity;
 	}
+	
+	@RequestMapping(value = "/chat/{chatId}/content", method = RequestMethod.GET)
+	public @ResponseBody ResponseEntity<List<Content>> getContent(@PathVariable("chatId") Long chatId) {
+		ResponseEntity<List<Content>> responseEntity = null;
+
+		try {
+			BusinessCase<Content> aCase = new BusinessCaseBuilder<Content>().withName("FIND_BY_ID").build();
+			Result result = appFacade.find(chatId, Content.class, aCase);
+			List<Content> contentList = result.getEntities();
+			if (!aCase.isSuspendExecution() && !aCase.getResult().hasError() && contentList != null) {
+				responseEntity = new ResponseEntity<List<Content>>(contentList, HttpStatus.OK);
+			}
+			responseEntity = new ResponseEntity<List<Content>>(HttpStatus.NO_CONTENT);
+		} catch (Exception e) {
+			responseEntity = new ResponseEntity<List<Content>>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		return responseEntity;
+	}
 
 
 
