@@ -1,4 +1,4 @@
-package com.dvsmedeiros.group.api;
+package com.dvsmedeiros.group.api.app;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
