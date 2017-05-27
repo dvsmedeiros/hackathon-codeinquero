@@ -1,7 +1,5 @@
 package com.dvsmedeiros.group.api.rest;
 
-import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,15 +18,11 @@ import com.dvsmedeiros.bce.core.controller.impl.BusinessCaseBuilder;
 import com.dvsmedeiros.bce.core.controller.impl.Navigator;
 import com.dvsmedeiros.bce.domain.Result;
 import com.dvsmedeiros.group.api.controller.BaseController;
-import com.dvsmedeiros.group.api.domain.Chat;
 import com.dvsmedeiros.group.api.domain.Content;
-import com.dvsmedeiros.group.api.domain.Member;
 import com.dvsmedeiros.group.api.domain.filter.ContentFilter;
 
 @Controller
-public class ContentController extends BaseController{
-	
-	
+public class MemberController extends BaseController{
 	@Autowired
 	@Qualifier("applicationFacade")
 	private ApplicationFacade<Content> appFacade;
@@ -39,10 +33,8 @@ public class ContentController extends BaseController{
 	private Navigator<Content> navigator;
 	
 	
-	
-	
-	@RequestMapping(value = "/chat/{chatId}/content", method = RequestMethod.GET)
-	public @ResponseBody ResponseEntity<List<Content>> getAllGroupContents(@PathVariable("chatId") Long chatId) {
+	@RequestMapping(value = "/chat/{chatId}/members", method = RequestMethod.GET)
+	public @ResponseBody ResponseEntity<List<Content>> getAllGroupMembers(@PathVariable("chatId") Long chatId) {
 		ResponseEntity<List<Content>> responseEntity = null;		
 		
 		
@@ -63,30 +55,4 @@ public class ContentController extends BaseController{
 		return responseEntity;
 	}
 	
-	@RequestMapping(value = "/chat/{chatId}/content/{contentId}", method = RequestMethod.GET)
-	public @ResponseBody ResponseEntity<Content> getContent(@PathVariable("chatId") Long chatId, @PathVariable("contentId") Long contentId) {
-		ResponseEntity<Content> responseEntity = null;
-
-		try {
-			ContentFilter filter = new ContentFilter();
-			filter.setChatId(chatId);
-			filter.setContentId(contentId);
-			
-			// CRIAR CONSULTA PELO FILTRO
-			BusinessCase<Content> aCase = new BusinessCaseBuilder<Content>().withName("FIND_CHAT_CONTENT_BY_ID").build();
-			Result result = appFacade.find(filter, aCase);
-			Content content = result.getEntity();			
-			
-			if (!aCase.isSuspendExecution() && !aCase.getResult().hasError() && content != null) {
-				responseEntity = new ResponseEntity<Content>(content, HttpStatus.OK);
-			}
-			responseEntity = new ResponseEntity<Content>(HttpStatus.NO_CONTENT);
-		} catch (Exception e) {
-			responseEntity = new ResponseEntity<Content>(HttpStatus.INTERNAL_SERVER_ERROR);
-		}
-		return responseEntity;
-	}
-
-
-
 }

@@ -36,7 +36,7 @@ public class ChatController extends BaseController {
 		ResponseEntity<List<Chat>> responseEntity = null;
 
 		try {
-			BusinessCase<Chat> aCase = new BusinessCaseBuilder<Chat>().withName("CHAT_FIND_ALL").build();
+			BusinessCase<Chat> aCase = new BusinessCaseBuilder<Chat>().build();
 			Result result = appFacade.findAll(Chat.class, aCase);
 			List<Chat> chatList = result.getEntities();
 			if (!aCase.isSuspendExecution() && !aCase.getResult().hasError() && !chatList.isEmpty()) {
@@ -54,9 +54,9 @@ public class ChatController extends BaseController {
 		ResponseEntity<Chat> responseEntity = null;
 
 		try {
-			BusinessCase<Chat> aCase = new BusinessCaseBuilder<Chat>().withName("FIND_BY_ID").build();
+			BusinessCase<Chat> aCase = new BusinessCaseBuilder<Chat>().build();
 			Result result = appFacade.find(chatId, Chat.class, aCase);
-			Chat chat = result.getEntities();
+			Chat chat = result.getEntity();
 			if (!aCase.isSuspendExecution() && !aCase.getResult().hasError() && chat != null) {
 				responseEntity = new ResponseEntity<Chat>(chat, HttpStatus.OK);
 			}
@@ -65,14 +65,15 @@ public class ChatController extends BaseController {
 			responseEntity = new ResponseEntity<Chat>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 		return responseEntity;
+
 	}
 	
 	
-
+	// REMOVER Após teste
 	
 	@RequestMapping(value = "/ping", method = RequestMethod.GET)
 	public @ResponseBody ResponseEntity<String> getPing() {
-		ResponseEntity<String> responseEntity = new ResponseEntity<String>("Hello man", HttpStatus.INTERNAL_SERVER_ERROR);
+		ResponseEntity<String> responseEntity = new ResponseEntity<String>("Hello man", HttpStatus.OK);
 
 		return responseEntity;
 	}

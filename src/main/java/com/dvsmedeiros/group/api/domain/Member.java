@@ -6,8 +6,7 @@ import com.dvsmedeiros.bce.domain.DomainEntity;
 
 public class Member extends DomainEntity {
 	private List<Chat> grupoList;
-	private User user;
-	private List<Schedule> scheduleList;
+	private User user;	
 	// Adicionar lista de arquivos -- Verificar como receber do node a lista de arquivos
 	// Criar classe de tipo de arquivo contendo audio/video ...
 
@@ -27,12 +26,5 @@ public class Member extends DomainEntity {
 		this.user = user;
 	}
 
-	public List<Schedule> getScheduleList() {
-		return scheduleList;
-	}
-
-	public void setScheduleList(List<Schedule> scheduleList) {
-		this.scheduleList = scheduleList;
-	}
 
 }

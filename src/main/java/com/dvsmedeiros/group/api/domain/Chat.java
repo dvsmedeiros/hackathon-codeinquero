@@ -10,6 +10,7 @@ public class Chat extends DomainEntity {
 	private String chatName;
 	private String photo;
 	private String description;
+	private List<Schedule> scheduleList;
 
 	public List<Link> getLinkList() {
 		return linkList;
@@ -49,6 +50,14 @@ public class Chat extends DomainEntity {
 
 	public void setDescription(String description) {
 		this.description = description;
+	}
+
+	public List<Schedule> getScheduleList() {
+		return scheduleList;
+	}
+
+	public void setScheduleList(List<Schedule> scheduleList) {
+		this.scheduleList = scheduleList;
 	}
 
 	// Buscar como dever� ser implementado a Localiza��o
