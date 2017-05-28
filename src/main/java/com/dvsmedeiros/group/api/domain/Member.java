@@ -4,9 +4,8 @@ import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.LazyCollection;
@@ -20,9 +19,9 @@ import com.dvsmedeiros.bce.domain.DomainEntity;
 @Table(name = "MEMBERS")
 public class Member extends DomainEntity {
 	
-	@OneToMany(cascade = CascadeType.ALL)
-	@LazyCollection(LazyCollectionOption.FALSE)
-	@JoinColumn(name = "MEMBER_ID")
+	
+	@LazyCollection(LazyCollectionOption.FALSE)	
+	@ManyToMany( mappedBy = "memberList")
 	private List<Chat> chatList;
 	
 	@ManyToOne(cascade = CascadeType.ALL)

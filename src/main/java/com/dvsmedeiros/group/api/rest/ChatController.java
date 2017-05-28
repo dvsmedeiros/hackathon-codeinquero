@@ -90,7 +90,7 @@ public class ChatController extends BaseController {
 		try {
 			Chat chat = chatAdapter.adapt(chatRequest);
 			BusinessCase<Chat> aCase = new BusinessCaseBuilder<Chat>().build();
-			Result result = appFacade.save(chat, aCase);			
+			appFacade.save(chat, aCase);			
 			if (aCase.isSuspendExecution() || aCase.getResult().hasError() ) {
 				responseEntity = new ResponseEntity<Chat>(HttpStatus.INTERNAL_SERVER_ERROR);
 			}else{
@@ -160,7 +160,7 @@ public class ChatController extends BaseController {
 		chat.setLinkList(linkList);
 		
 		Schedule schedule = new Schedule();
-		schedule.setDate(Calendar.getInstance());
+		schedule.setScheduleDate(Calendar.getInstance());
 		schedule.setInsertionDate(Calendar.getInstance());
 		schedule.setId(1);
 		

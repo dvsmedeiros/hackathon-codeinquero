@@ -13,15 +13,15 @@ import com.dvsmedeiros.bce.domain.DomainEntity;
 @Entity
 @Table(name = "SCHEDULES")
 public class Schedule extends DomainEntity {
-	
-	private Calendar date;
 
-	public Calendar getDate() {
-		return date;
+	private Calendar scheduleDate;
+
+	public Calendar getScheduleDate() {
+		return scheduleDate;
 	}
 
-	public void setDate(Calendar date) {
-		this.date = date;
+	public void setScheduleDate(Calendar scheduleDate) {
+		this.scheduleDate = scheduleDate;
 	}
 
 }

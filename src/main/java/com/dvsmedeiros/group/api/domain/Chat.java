@@ -5,6 +5,8 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -21,9 +23,12 @@ import com.dvsmedeiros.bce.domain.DomainEntity;
 public class Chat extends DomainEntity {
 	
 	private Integer chatId;
-	@OneToMany(cascade = CascadeType.ALL)
+	@ManyToMany(cascade = CascadeType.ALL)
 	@LazyCollection(LazyCollectionOption.FALSE)
-	@JoinColumn(name = "CHAT_ID")
+	@JoinTable(name = "GROUP_MEMBER", joinColumns = {
+			@JoinColumn(name = "GROUP_ID", nullable = false, updatable = false) },
+			inverseJoinColumns = { @JoinColumn(name = "MEMBER_ID",
+					nullable = true, updatable = false) })
 	private List<Member> memberList;
 	
 	@OneToMany(cascade = CascadeType.ALL)
