@@ -1,6 +1,5 @@
 package com.dvsmedeiros.group.api.rest;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,16 +12,20 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.thymeleaf.util.ListUtils;
 
 import com.dvsmedeiros.bce.core.controller.impl.ApplicationFacade;
 import com.dvsmedeiros.bce.core.controller.impl.BusinessCase;
 import com.dvsmedeiros.bce.core.controller.impl.BusinessCaseBuilder;
 import com.dvsmedeiros.bce.core.controller.impl.Navigator;
+import com.dvsmedeiros.bce.domain.Filter;
 import com.dvsmedeiros.bce.domain.Result;
 import com.dvsmedeiros.group.api.controller.BaseController;
 import com.dvsmedeiros.group.api.domain.Chat;
 import com.dvsmedeiros.group.api.rest.adapter.ChatAdapter;
+import com.dvsmedeiros.group.api.rest.adapter.ChatInfoRequestAdapter;
 import com.dvsmedeiros.group.api.rest.gambiarra.Gambiarra;
+import com.dvsmedeiros.group.api.rest.request.ChatInfoRequest;
 import com.dvsmedeiros.group.api.rest.request.ChatRequest;
 
 @Controller
@@ -39,6 +42,10 @@ public class ChatController extends BaseController {
 	@Autowired
 	@Qualifier("chatAdapter")
 	private ChatAdapter chatAdapter;
+	
+	
+	@Autowired
+	private ChatInfoRequestAdapter chatInfoRequestAdapter;
 	
 	@Autowired
 	private Gambiarra gambiarra;
@@ -110,6 +117,46 @@ public class ChatController extends BaseController {
 		return responseEntity;
 
 	}
+	
+	
+	@ResponseBody
+	@RequestMapping(value = "/chatDescription", method = RequestMethod.POST)
+	public ResponseEntity<Chat> postChatDescription(@RequestBody ChatInfoRequest chatInfoRequest) {
+		ResponseEntity<Chat> responseEntity;
+		
+		try {
+			Chat chat = chatInfoRequestAdapter.adapt(chatInfoRequest);
+			
+			Filter<Chat> chatFilter= new Filter<>(Chat.class);
+			chatFilter.getEntity().setChatId(chat.getChatId());
+			 
+			BusinessCase<Chat> aCase = new BusinessCaseBuilder<Chat>().withName("FIND_CHAT_BY_ID").build();
+			List temp = appFacade.find(chatFilter, aCase).getEntity();			
+			List<Chat> chatList = gambiarra.makeTheMagic(temp);
+			if(!ListUtils.isEmpty(chatList)){
+				Chat updateChat = chatList.get(0);
+				updateChat.setDescription(chat.getDescription());
+				appFacade.update(updateChat, new BusinessCaseBuilder<Chat>().build()).getEntity();
+			}
+				
+			if (aCase.isSuspendExecution() || aCase.getResult().hasError() ) {
+				responseEntity = new ResponseEntity<Chat>(HttpStatus.INTERNAL_SERVER_ERROR);
+			}else{
+				responseEntity = new ResponseEntity<Chat>(HttpStatus.OK);
+			}
+		} catch (Exception e) {
+			responseEntity = new ResponseEntity<Chat>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		
+		
+		responseEntity = new ResponseEntity<Chat>(HttpStatus.OK);
+		
+		return responseEntity;
+
+	}
+	
+	
+	
 	
 	
 }
