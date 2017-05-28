@@ -1,13 +1,26 @@
 package com.dvsmedeiros.group.api.domain;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+
+import org.springframework.stereotype.Component;
+
 import com.dvsmedeiros.bce.domain.DomainEntity;
 
+@Component
+@Entity
+@Table(name = "CONTENT_LINKS")
 public class Link extends DomainEntity {
+	
 	private String link;
 	private String idMessage;
+	
+	@ManyToOne(cascade = CascadeType.ALL)
 	private Member member;
 	
-	// Removido por enquanto
+	@ManyToOne(cascade = CascadeType.ALL)
 	private LinkCategory linkCategory;
 
 	public String getLink() {

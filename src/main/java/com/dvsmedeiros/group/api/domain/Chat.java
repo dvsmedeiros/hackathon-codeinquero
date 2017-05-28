@@ -2,17 +2,44 @@ package com.dvsmedeiros.group.api.domain;
 
 import java.util.List;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
+import org.springframework.stereotype.Component;
+
 import com.dvsmedeiros.bce.domain.DomainEntity;
 
+@Component
+@Entity
+@Table(name = "CHATS")
 public class Chat extends DomainEntity {
 	
+	@OneToMany(cascade = CascadeType.ALL)
+	@LazyCollection(LazyCollectionOption.FALSE)
+	@JoinColumn(name = "CHAT_ID")
 	private List<Member> memberList;
+	
+	@OneToMany(cascade = CascadeType.ALL)
+	@LazyCollection(LazyCollectionOption.FALSE)
+	@JoinColumn(name = "CHAT_ID")
 	private List<Link> linkList;
 	
 	private String chatName;
 	private String photo;
 	private String description;
+	
+	@OneToMany(cascade = CascadeType.ALL)
+	@LazyCollection(LazyCollectionOption.FALSE)
+	@JoinColumn(name = "CHAT_ID")
 	private List<Schedule> scheduleList;
+	
+	@ManyToOne(cascade = CascadeType.ALL)
 	private ChatCategory chatCategory;
 
 	public List<Link> getLinkList() {

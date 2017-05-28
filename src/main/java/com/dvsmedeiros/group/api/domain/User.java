@@ -1,8 +1,17 @@
 package com.dvsmedeiros.group.api.domain;
 
+import javax.persistence.Entity;
+import javax.persistence.Table;
+
+import org.springframework.stereotype.Component;
+
 import com.dvsmedeiros.bce.domain.DomainEntity;
 
+@Component
+@Entity
+@Table(name = "USERS")
 public class User extends DomainEntity {
+	
 	private String username;
 	private String password;
 	private String passwordConfirmation;
