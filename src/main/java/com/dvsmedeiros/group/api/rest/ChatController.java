@@ -1,5 +1,6 @@
 package com.dvsmedeiros.group.api.rest;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,7 +46,15 @@ public class ChatController extends BaseController {
 		try {
 			BusinessCase<Chat> aCase = new BusinessCaseBuilder<Chat>().build();
 			Result result = appFacade.findAll(Chat.class, aCase);
-			List<Chat> chatList = result.getEntities();
+			List temp = result.getEntities();
+			
+			List<Chat> chatList = new ArrayList<>();
+			for(Object o : temp){
+				if(o instanceof Chat ){
+					chatList.add((Chat) o);
+				}
+			}
+			
 			if (!aCase.isSuspendExecution() && !aCase.getResult().hasError() && !chatList.isEmpty()) {
 				responseEntity = new ResponseEntity<List<Chat>>(chatList, HttpStatus.OK);
 			}else{				
