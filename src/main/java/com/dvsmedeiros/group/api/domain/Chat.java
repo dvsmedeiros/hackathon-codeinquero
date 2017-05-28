@@ -23,13 +23,13 @@ public class Chat extends DomainEntity {
 	@OneToMany(cascade = CascadeType.ALL)
 	@LazyCollection(LazyCollectionOption.FALSE)
 	@JoinColumn(name = "CHAT_ID")
+	private Integer chatId;
 	private List<Member> memberList;
 	
 	@OneToMany(cascade = CascadeType.ALL)
 	@LazyCollection(LazyCollectionOption.FALSE)
 	@JoinColumn(name = "CHAT_ID")
 	private List<Link> linkList;
-	
 	private String chatName;
 	private String photo;
 	private String description;
@@ -96,6 +96,14 @@ public class Chat extends DomainEntity {
 
 	public void setChatCategory(ChatCategory chatCategory) {
 		this.chatCategory = chatCategory;
+	}
+
+	public Integer getChatId() {
+		return chatId;
+	}
+
+	public void setChatId(Integer chatId) {
+		this.chatId = chatId;
 	}
 
 	// Buscar como dever� ser implementado a Localiza��o
