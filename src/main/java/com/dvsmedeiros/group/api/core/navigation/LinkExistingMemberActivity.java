@@ -49,7 +49,9 @@ public class LinkExistingMemberActivity implements IStrategy<Link> {
 		chatFilter.getEntity().setChatId(aEntity.getChat().getChatId());
 
 		List<Chat> chatList = chatFacade.find(chatFilter, new BusinessCaseBuilder<Chat>().withName("FIND_CHAT_BY_ID").build()).getEntity();
-
+		
+		aEntity.setChat(null);
+		linkFacade.save(aEntity, new BusinessCaseBuilder<Link>().build());
 		if (!ListUtils.isEmpty(chatList)) {
 			Chat chat = chatList.get(0);
 			if (chat.getMemberList() == null) {
@@ -71,7 +73,6 @@ public class LinkExistingMemberActivity implements IStrategy<Link> {
 			}
 			chat.getLinkList().add(aEntity);
 			
-			linkFacade.save(aEntity, new BusinessCaseBuilder<Link>().build());
 			chatFacade.update(chat, new BusinessCaseBuilder<Chat>().build());				
 		}		
 		
