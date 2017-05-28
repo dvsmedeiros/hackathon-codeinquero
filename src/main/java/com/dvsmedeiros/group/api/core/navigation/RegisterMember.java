@@ -1,4 +1,4 @@
-package com.dvsmedeiros.group.api.core.strategy.impl;
+package com.dvsmedeiros.group.api.core.navigation;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;

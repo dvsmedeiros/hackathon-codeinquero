@@ -15,8 +15,8 @@ public class MemberAdapter implements IAdapter<MemberRequest, Member>{
 	public Member adapt(MemberRequest source) {
 		Member member = new Member();
 		member.setMemberId(source.getId());
-		member.setFirstName(source.getFirstName());
-		member.setLastName(source.getLastName());
+		member.setFirstName(source.getFirst_name());
+		member.setLastName(source.getLast_name());
 		member.setInsertionDate(Calendar.getInstance());
 		return member;
 	}

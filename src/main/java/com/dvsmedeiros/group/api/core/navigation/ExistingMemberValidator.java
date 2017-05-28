@@ -1,4 +1,4 @@
-package com.dvsmedeiros.group.api.core.strategy.impl;
+package com.dvsmedeiros.group.api.core.navigation;
 
 import java.util.List;
 
@@ -28,6 +28,7 @@ public class ExistingMemberValidator implements IStrategy<Member> {
 
 		List<Member> memberList = appFacade.find(filter, new BusinessCaseBuilder<Member>().build()).getEntities();
 		if (!ListUtils.isEmpty(memberList)) {
+			aEntity = memberList.get(0);
 			aCase.suspendExecution();
 		}
 
