@@ -5,8 +5,10 @@ import com.dvsmedeiros.bce.domain.DomainEntity;
 public class Link extends DomainEntity {
 	private String link;
 	private String idMessage;
-	private Member participant;
-	private Category category;
+	private Member member;
+	
+	// Removido por enquanto
+	private LinkCategory linkCategory;
 
 	public String getLink() {
 		return link;
@@ -24,20 +26,20 @@ public class Link extends DomainEntity {
 		this.idMessage = idMessage;
 	}
 
-	public Member getParticipant() {
-		return participant;
+	public Member getMember() {
+		return member;
 	}
 
-	public void setParticipant(Member participant) {
-		this.participant = participant;
+	public void setMember(Member member) {
+		this.member = member;
 	}
 
-	public Category getCategory() {
-		return category;
+	public LinkCategory getLinkCategory() {
+		return linkCategory;
 	}
 
-	public void setCategory(Category category) {
-		this.category = category;
+	public void setLinkCategory(LinkCategory linkCategory) {
+		this.linkCategory = linkCategory;
 	}
 
 }

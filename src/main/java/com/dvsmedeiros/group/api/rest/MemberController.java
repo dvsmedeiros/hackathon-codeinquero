@@ -18,39 +18,62 @@ import com.dvsmedeiros.bce.core.controller.impl.BusinessCaseBuilder;
 import com.dvsmedeiros.bce.core.controller.impl.Navigator;
 import com.dvsmedeiros.bce.domain.Result;
 import com.dvsmedeiros.group.api.controller.BaseController;
-import com.dvsmedeiros.group.api.domain.Content;
-import com.dvsmedeiros.group.api.domain.filter.ContentFilter;
+import com.dvsmedeiros.group.api.domain.Member;
+import com.dvsmedeiros.group.api.domain.filter.MemberFilter;
 
 @Controller
 public class MemberController extends BaseController{
 	@Autowired
 	@Qualifier("applicationFacade")
-	private ApplicationFacade<Content> appFacade;
+	private ApplicationFacade<Member> appFacade;
 	
 	
 	@Autowired
 	@Qualifier("navigator")
-	private Navigator<Content> navigator;
+	private Navigator<Member> navigator;
 	
 	
 	@RequestMapping(value = "/chat/{chatId}/members", method = RequestMethod.GET)
-	public @ResponseBody ResponseEntity<List<Content>> getAllGroupMembers(@PathVariable("chatId") Long chatId) {
-		ResponseEntity<List<Content>> responseEntity = null;		
+	public @ResponseBody ResponseEntity<List<Member>> getAllGroupMembers(@PathVariable("chatId") Long chatId) {
+		ResponseEntity<List<Member>> responseEntity = null;		
 		
 		
 		try {
-			ContentFilter filter = new ContentFilter();
+			MemberFilter filter = new MemberFilter();
 			filter.setChatId(chatId);
 			
-			BusinessCase<Content> aCase = new BusinessCaseBuilder<Content>().withName("FIND_CHAT_CONTENT").build();
+			BusinessCase<Member> aCase = new BusinessCaseBuilder<Member>().withName("FIND_CHAT_MEMBERS").build();
 			Result result = appFacade.find(filter, aCase);
-			List<Content> contentList = result.getEntities();
-			if (!aCase.isSuspendExecution() && !aCase.getResult().hasError() && contentList != null) {
-				responseEntity = new ResponseEntity<List<Content>>(contentList, HttpStatus.OK);
+			List<Member> memberList = result.getEntities();
+			if (!aCase.isSuspendExecution() && !aCase.getResult().hasError() && memberList != null) {
+				responseEntity = new ResponseEntity<List<Member>>(memberList, HttpStatus.OK);
 			}
-			responseEntity = new ResponseEntity<List<Content>>(HttpStatus.NO_CONTENT);
+			responseEntity = new ResponseEntity<List<Member>>(HttpStatus.NO_CONTENT);
 		} catch (Exception e) {
-			responseEntity = new ResponseEntity<List<Content>>(HttpStatus.INTERNAL_SERVER_ERROR);
+			responseEntity = new ResponseEntity<List<Member>>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		return responseEntity;
+	}
+	
+	
+	@RequestMapping(value = "/chat/{chatId}/member/{memberId}", method = RequestMethod.GET)
+	public @ResponseBody ResponseEntity<List<Member>> getMember(@PathVariable("memberId") Long chatId) {
+		ResponseEntity<List<Member>> responseEntity = null;		
+		
+		try {
+			MemberFilter filter = new MemberFilter();
+			filter.setChatId(chatId);
+			
+			BusinessCase<Member> aCase = new BusinessCaseBuilder<Member>().withName("FIND_CHAT_MEMBER_BY_ID").build();
+			Result result = appFacade.find(filter, aCase);
+			List<Member> memberList = result.getEntities();
+			if (!aCase.isSuspendExecution() && !aCase.getResult().hasError() && memberList != null) {
+				responseEntity = new ResponseEntity<List<Member>>(memberList, HttpStatus.OK);
+			}
+			responseEntity = new ResponseEntity<List<Member>>(HttpStatus.NO_CONTENT);
+			
+		} catch (Exception e) {
+			responseEntity = new ResponseEntity<List<Member>>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 		return responseEntity;
 	}

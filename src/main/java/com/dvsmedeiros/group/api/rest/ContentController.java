@@ -1,7 +1,5 @@
 package com.dvsmedeiros.group.api.rest;
 
-import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,9 +18,7 @@ import com.dvsmedeiros.bce.core.controller.impl.BusinessCaseBuilder;
 import com.dvsmedeiros.bce.core.controller.impl.Navigator;
 import com.dvsmedeiros.bce.domain.Result;
 import com.dvsmedeiros.group.api.controller.BaseController;
-import com.dvsmedeiros.group.api.domain.Chat;
 import com.dvsmedeiros.group.api.domain.Content;
-import com.dvsmedeiros.group.api.domain.Member;
 import com.dvsmedeiros.group.api.domain.filter.ContentFilter;
 
 @Controller
@@ -86,6 +82,9 @@ public class ContentController extends BaseController{
 		}
 		return responseEntity;
 	}
+	
+	
+	
 
 
 
