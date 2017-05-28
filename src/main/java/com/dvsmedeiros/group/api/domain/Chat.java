@@ -5,10 +5,10 @@ import java.util.List;
 import com.dvsmedeiros.bce.domain.DomainEntity;
 
 public class Chat extends DomainEntity {
-	
+
+	private Integer chatId;
 	private List<Member> memberList;
 	private List<Link> linkList;
-	
 	private String chatName;
 	private String photo;
 	private String description;
@@ -69,6 +69,14 @@ public class Chat extends DomainEntity {
 
 	public void setChatCategory(ChatCategory chatCategory) {
 		this.chatCategory = chatCategory;
+	}
+
+	public Integer getChatId() {
+		return chatId;
+	}
+
+	public void setChatId(Integer chatId) {
+		this.chatId = chatId;
 	}
 
 	// Buscar como dever� ser implementado a Localiza��o

@@ -20,6 +20,7 @@ import com.dvsmedeiros.bce.core.controller.impl.Navigator;
 import com.dvsmedeiros.bce.domain.Result;
 import com.dvsmedeiros.group.api.controller.BaseController;
 import com.dvsmedeiros.group.api.domain.Chat;
+import com.dvsmedeiros.group.api.rest.adapter.ChatAdapter;
 import com.dvsmedeiros.group.api.rest.request.ChatRequest;
 
 @Controller
@@ -32,6 +33,10 @@ public class ChatController extends BaseController {
 	@Autowired
 	@Qualifier("navigator")
 	private Navigator<Chat> navigator;
+	
+	@Autowired
+	@Qualifier("chatAdapter")
+	private ChatAdapter chatAdapter;
 
 	@RequestMapping(value = "/chat", method = RequestMethod.GET)
 	public @ResponseBody ResponseEntity<List<Chat>> getAllGroups() {
@@ -74,6 +79,20 @@ public class ChatController extends BaseController {
 	@RequestMapping(value = "/chat", method = RequestMethod.POST)
 	public ResponseEntity<Chat> postChat(@RequestBody ChatRequest chatRequest) {
 		ResponseEntity<Chat> responseEntity;
+		
+		try {
+			Chat chat = chatAdapter.adapt(chatRequest);
+			BusinessCase<Chat> aCase = new BusinessCaseBuilder<Chat>().build();
+			appFacade.save(chat, aCase);			
+			if (aCase.isSuspendExecution() || aCase.getResult().hasError() ) {
+				responseEntity = new ResponseEntity<Chat>(HttpStatus.INTERNAL_SERVER_ERROR);
+			}else{
+				responseEntity = new ResponseEntity<Chat>(HttpStatus.OK);
+			}
+		} catch (Exception e) {
+			responseEntity = new ResponseEntity<Chat>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		
 		
 		responseEntity = new ResponseEntity<Chat>(HttpStatus.OK);
 		
