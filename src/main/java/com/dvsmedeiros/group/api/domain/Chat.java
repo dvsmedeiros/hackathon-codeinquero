@@ -28,7 +28,7 @@ public class Chat extends DomainEntity {
 	
 	@OneToMany(cascade = CascadeType.ALL)
 	@LazyCollection(LazyCollectionOption.FALSE)
-	@JoinColumn(name = "CHAT_ID")
+	@JoinColumn(name = "LINK_ID")
 	private List<Link> linkList;
 	private String chatName;
 	private String photo;
