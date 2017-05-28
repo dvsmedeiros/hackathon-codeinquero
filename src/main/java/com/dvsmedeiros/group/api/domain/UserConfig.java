@@ -2,6 +2,7 @@ package com.dvsmedeiros.group.api.domain;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
@@ -15,6 +16,7 @@ import com.dvsmedeiros.bce.domain.DomainEntity;
 public class UserConfig extends DomainEntity {
 	
 	@ManyToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "PROFILE_ID")
 	private Profile profile;
 
 	public Profile getProfile() {

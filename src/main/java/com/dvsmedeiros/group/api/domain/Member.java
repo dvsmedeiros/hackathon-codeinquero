@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
@@ -18,16 +19,21 @@ import com.dvsmedeiros.bce.domain.DomainEntity;
 @Entity
 @Table(name = "MEMBERS")
 public class Member extends DomainEntity {
-	
-	
-	@LazyCollection(LazyCollectionOption.FALSE)	
-	@ManyToMany( mappedBy = "memberList")
+
+	private String firstName;
+	private String lastName;
+	private Integer memberId;
+
+	@LazyCollection(LazyCollectionOption.FALSE)
+	@ManyToMany(mappedBy = "memberList")
 	private List<Chat> chatList;
-	
+
 	@ManyToOne(cascade = CascadeType.ALL)
-	private User user;	
-	
-	// Adicionar lista de arquivos -- Verificar como receber do node a lista de arquivos
+	@JoinColumn(name = "USER_ID")
+	private User user;
+
+	// Adicionar lista de arquivos -- Verificar como receber do node a lista de
+	// arquivos
 	// Criar classe de tipo de arquivo contendo audio/video ...
 
 	public List<Chat> getChatList() {
@@ -46,5 +52,28 @@ public class Member extends DomainEntity {
 		this.user = user;
 	}
 
+	public String getFirstName() {
+		return firstName;
+	}
+
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
+
+	public String getLastName() {
+		return lastName;
+	}
+
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
+	}
+
+	public Integer getMemberId() {
+		return memberId;
+	}
+
+	public void setMemberId(Integer memberId) {
+		this.memberId = memberId;
+	}
 
 }

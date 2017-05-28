@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -22,6 +23,8 @@ import com.dvsmedeiros.bce.domain.Result;
 import com.dvsmedeiros.group.api.controller.BaseController;
 import com.dvsmedeiros.group.api.domain.Chat;
 import com.dvsmedeiros.group.api.domain.Link;
+import com.dvsmedeiros.group.api.rest.adapter.LinkAdapter;
+import com.dvsmedeiros.group.api.rest.request.LinkRequest;
 
 @Controller
 public class LinkController extends BaseController{
@@ -34,6 +37,11 @@ public class LinkController extends BaseController{
 	@Autowired
 	@Qualifier("navigator")
 	private Navigator<Link> navigator;
+	
+	
+	@Autowired
+	@Qualifier("linkAdapter")
+	private LinkAdapter linkAdapter;
 	
 	@RequestMapping(value = "/chat/{chatId}/link", method = RequestMethod.GET)
 	public @ResponseBody ResponseEntity<List<Link>> getAllGroupContents(@PathVariable("chatId") Long chatId) {
@@ -89,6 +97,32 @@ public class LinkController extends BaseController{
 			responseEntity = new ResponseEntity<Link>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 		return responseEntity;
+	}
+	
+	
+	@ResponseBody
+	@RequestMapping(value = "/link", method = RequestMethod.POST)
+	public ResponseEntity<Link> postLink(@RequestBody LinkRequest linkRequest) {
+		ResponseEntity<Link> responseEntity;
+		
+		try {
+			Link link = linkAdapter.adapt(linkRequest);
+			BusinessCase<Link> aCase = new BusinessCaseBuilder<Link>().build();
+			appFacade.save(link, aCase);			
+			if (aCase.isSuspendExecution() || aCase.getResult().hasError() ) {
+				responseEntity = new ResponseEntity<Link>(HttpStatus.INTERNAL_SERVER_ERROR);
+			}else{
+				responseEntity = new ResponseEntity<Link>(HttpStatus.OK);
+			}
+		} catch (Exception e) {
+			responseEntity = new ResponseEntity<Link>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		
+		
+		responseEntity = new ResponseEntity<Link>(HttpStatus.OK);
+		
+		return responseEntity;
+
 	}
 
 }

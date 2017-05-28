@@ -9,9 +9,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.thymeleaf.util.ListUtils;
 
 import com.dvsmedeiros.bce.core.controller.impl.ApplicationFacade;
 import com.dvsmedeiros.bce.core.controller.impl.BusinessCase;
@@ -22,16 +24,28 @@ import com.dvsmedeiros.bce.domain.Result;
 import com.dvsmedeiros.group.api.controller.BaseController;
 import com.dvsmedeiros.group.api.domain.Chat;
 import com.dvsmedeiros.group.api.domain.Member;
+import com.dvsmedeiros.group.api.rest.adapter.MemberAdapter;
+import com.dvsmedeiros.group.api.rest.request.MemberRequest;
 
 @Controller
 public class MemberController extends BaseController {
 	@Autowired
 	@Qualifier("applicationFacade")
 	private ApplicationFacade<Member> appFacade;
+	
+	
+	@Autowired
+	@Qualifier("applicationFacade")
+	private ApplicationFacade<Chat> chatFacade;
 
 	@Autowired
 	@Qualifier("navigator")
 	private Navigator<Member> navigator;
+	
+	
+	@Autowired
+	@Qualifier("memberAdapter")
+	private MemberAdapter memberAdapter;
 
 	@RequestMapping(value = "/chat/{chatId}/members", method = RequestMethod.GET)
 	public @ResponseBody ResponseEntity<List<Member>> getAllGroupMembers(@PathVariable("chatId") Long chatId) {
@@ -89,6 +103,72 @@ public class MemberController extends BaseController {
 		} catch (Exception e) {
 			responseEntity = new ResponseEntity<Member>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
+		return responseEntity;
+
+	}
+	
+	
+	@ResponseBody
+	@RequestMapping(value = "/member", method = RequestMethod.DELETE)
+	public ResponseEntity<Member> deleteMember(@RequestBody MemberRequest memberRequest) {
+		ResponseEntity<Member> responseEntity;
+		
+		try {
+			Member member = memberAdapter.adapt(memberRequest);
+			BusinessCase<Member> aCase = new BusinessCaseBuilder<Member>().withName("SAVE_MEMBER").build();
+			navigator.run(member, aCase);						
+			if (aCase.isSuspendExecution() || aCase.getResult().hasError() ) {
+				responseEntity = new ResponseEntity<Member>(HttpStatus.INTERNAL_SERVER_ERROR);
+			}else{
+				responseEntity = new ResponseEntity<Member>(HttpStatus.OK);
+			}
+		} catch (Exception e) {
+			responseEntity = new ResponseEntity<Member>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		
+		
+		responseEntity = new ResponseEntity<Member>(HttpStatus.OK);
+		
+		return responseEntity;
+
+	}
+	
+	
+	
+	@ResponseBody
+	@RequestMapping(value = "/member", method = RequestMethod.POST)
+	public ResponseEntity<Member> postMember(@RequestBody MemberRequest memberRequest) {
+		ResponseEntity<Member> responseEntity;
+		
+		try {
+			Member member = memberAdapter.adapt(memberRequest);
+			BusinessCase<Member> aCase = new BusinessCaseBuilder<Member>().withName("SAVE_MEMBER").build();
+			navigator.run(member, aCase);						
+			if (aCase.isSuspendExecution() || aCase.getResult().hasError() ) {
+				Filter<Chat> filter = new Filter<>(Chat.class);
+				filter.getEntity().setChatId(memberRequest.getChatId());
+				List<Chat> chatList = chatFacade.find(filter, new BusinessCaseBuilder<Chat>().build()).getEntities();
+				if(!ListUtils.isEmpty(chatList)){
+					Chat chat = chatList.get(0);
+					if(chat.getMemberList() == null){
+						chat.setMemberList(new ArrayList<>());
+					}
+					chat.getMemberList().add(member);
+					chatFacade.save(chat, new BusinessCaseBuilder<Chat>().build());
+				}else{
+					responseEntity = new ResponseEntity<Member>(HttpStatus.INTERNAL_SERVER_ERROR);
+				}				
+				
+			}else{
+				responseEntity = new ResponseEntity<Member>(HttpStatus.OK);
+			}
+		} catch (Exception e) {
+			responseEntity = new ResponseEntity<Member>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		
+		
+		responseEntity = new ResponseEntity<Member>(HttpStatus.OK);
+		
 		return responseEntity;
 
 	}
