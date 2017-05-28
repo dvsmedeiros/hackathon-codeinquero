@@ -14,7 +14,7 @@ import com.dvsmedeiros.bce.domain.DomainEntity;
 @Table(name = "CONTENTS")
 public class Content extends DomainEntity {
 	// O idMessage não é único, ele deve ser associado ao chatId do Chat
-	private String idMessage;
+	private Integer idMessage;
 
 	private Integer aLike;
 
@@ -26,12 +26,20 @@ public class Content extends DomainEntity {
 	@ManyToOne(cascade = CascadeType.ALL)
 	private Chat chat;
 
-	public String getIdMessage() {
+	public Integer getIdMessage() {
 		return idMessage;
 	}
 
-	public void setIdMessage(String idMessage) {
+	public void setIdMessage(Integer idMessage) {
 		this.idMessage = idMessage;
+	}
+
+	public Integer getaLike() {
+		return aLike;
+	}
+
+	public void setaLike(Integer aLike) {
+		this.aLike = aLike;
 	}
 
 	public Member getMember() {

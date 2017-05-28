@@ -17,11 +17,11 @@ public class Link extends Content {
 	@ManyToOne(cascade = CascadeType.ALL)
 	private LinkCategory linkCategory;
 
-	public String getaLink() {
+	public String getALink() {
 		return aLink;
 	}
 
-	public void setaLink(String aLink) {
+	public void setALink(String aLink) {
 		this.aLink = aLink;
 	}
 

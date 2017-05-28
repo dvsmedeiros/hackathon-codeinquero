@@ -87,9 +87,9 @@ public class DummyController extends BaseController{
 			linkCategory.setInsertionDate(Calendar.getInstance());
 			
 			Link link = new Link();
-			link.setIdMessage("000000001");
+			link.setIdMessage(1000000);
 			link.setInsertionDate(Calendar.getInstance());
-			link.setaLink("www.teste.com");
+			link.setALink("www.teste.com");
 			link.setMember(member);
 			link.setALike(50);
 			link.setDislike(10);
@@ -98,9 +98,9 @@ public class DummyController extends BaseController{
 			
 			
 			Link link2 = new Link();
-			link2.setIdMessage("000000002");
+			link2.setIdMessage(2000000);
 			link2.setInsertionDate(Calendar.getInstance());
-			link2.setaLink("www.lol.com");
+			link2.setALink("www.lol.com");
 			link2.setMember(member);
 			link2.setALike(25);
 			link2.setDislike(2);
@@ -192,9 +192,9 @@ public class DummyController extends BaseController{
 		
 		
 		Link link = new Link();
-		link.setIdMessage("000000001");
+		link.setIdMessage(1000000);
 		link.setInsertionDate(Calendar.getInstance());
-		link.setaLink("www.teste.com");
+		link.setALink("www.teste.com");
 		link.setMember(member);
 		link.setALike(50);
 		link.setDislike(10);
@@ -203,9 +203,9 @@ public class DummyController extends BaseController{
 		
 		
 		Link link2 = new Link();
-		link2.setIdMessage("000000002");
+		link2.setIdMessage(2000000);
 		link2.setInsertionDate(Calendar.getInstance());
-		link2.setaLink("www.lol.com");
+		link2.setALink("www.lol.com");
 		link2.setMember(member);
 		link2.setALike(25);
 		link2.setDislike(2);
