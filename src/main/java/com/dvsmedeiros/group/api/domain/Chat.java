@@ -20,15 +20,15 @@ import com.dvsmedeiros.bce.domain.DomainEntity;
 @Table(name = "CHATS")
 public class Chat extends DomainEntity {
 	
+	private Integer chatId;
 	@OneToMany(cascade = CascadeType.ALL)
 	@LazyCollection(LazyCollectionOption.FALSE)
 	@JoinColumn(name = "CHAT_ID")
-	private Integer chatId;
 	private List<Member> memberList;
 	
 	@OneToMany(cascade = CascadeType.ALL)
 	@LazyCollection(LazyCollectionOption.FALSE)
-	@JoinColumn(name = "LINK_ID")
+	@JoinColumn(name = "CHAT_ID")
 	private List<Link> linkList;
 	private String chatName;
 	private String photo;
