@@ -13,6 +13,7 @@ import com.dvsmedeiros.bce.domain.DomainEntity;
 @Entity
 @Table(name = "CONTENTS")
 public class Content extends DomainEntity {
+	// O idMessage não é único, ele deve ser associado ao chatId do Chat
 	private String idMessage;
 
 	private Integer aLike;
@@ -57,11 +58,11 @@ public class Content extends DomainEntity {
 		this.dislike = dislike;
 	}
 
-	public Integer getaLike() {
+	public Integer getALike() {
 		return aLike;
 	}
 
-	public void setaLike(Integer aLike) {
+	public void setALike(Integer aLike) {
 		this.aLike = aLike;
 	}
 	

@@ -51,8 +51,9 @@ public class LinkController extends BaseController{
 			List<Link> linkList = result.getEntities();
 			if (!aCase.isSuspendExecution() && !aCase.getResult().hasError() && linkList != null) {
 				responseEntity = new ResponseEntity<List<Link>>(linkList, HttpStatus.OK);
+			}else{
+				responseEntity = new ResponseEntity<List<Link>>(HttpStatus.NO_CONTENT);
 			}
-			responseEntity = new ResponseEntity<List<Link>>(HttpStatus.NO_CONTENT);
 		} catch (Exception e) {
 			responseEntity = new ResponseEntity<List<Link>>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
@@ -81,8 +82,9 @@ public class LinkController extends BaseController{
 			if (!aCase.isSuspendExecution() && !aCase.getResult().hasError() && !ListUtils.isEmpty(linkList)) {
 				Link link = linkList.get(0);
 				responseEntity = new ResponseEntity<Link>(link, HttpStatus.OK);
+			}else{
+				responseEntity = new ResponseEntity<Link>(HttpStatus.NO_CONTENT);
 			}
-			responseEntity = new ResponseEntity<Link>(HttpStatus.NO_CONTENT);
 		} catch (Exception e) {
 			responseEntity = new ResponseEntity<Link>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
