@@ -22,6 +22,7 @@ import com.dvsmedeiros.bce.domain.Result;
 import com.dvsmedeiros.group.api.controller.BaseController;
 import com.dvsmedeiros.group.api.domain.Chat;
 import com.dvsmedeiros.group.api.rest.adapter.ChatAdapter;
+import com.dvsmedeiros.group.api.rest.gambiarra.Gambiarra;
 import com.dvsmedeiros.group.api.rest.request.ChatRequest;
 
 @Controller
@@ -38,6 +39,9 @@ public class ChatController extends BaseController {
 	@Autowired
 	@Qualifier("chatAdapter")
 	private ChatAdapter chatAdapter;
+	
+	@Autowired
+	private Gambiarra gambiarra;
 
 	@RequestMapping(value = "/chat", method = RequestMethod.GET)
 	public @ResponseBody ResponseEntity<List<Chat>> getAllGroups() {
@@ -48,12 +52,7 @@ public class ChatController extends BaseController {
 			Result result = appFacade.findAll(Chat.class, aCase);
 			List temp = result.getEntities();
 			
-			List<Chat> chatList = new ArrayList<>();
-			for(Object o : temp){
-				if(o instanceof Chat ){
-					chatList.add((Chat) o);
-				}
-			}
+			List<Chat> chatList = gambiarra.makeTheMagic(temp);
 			
 			if (!aCase.isSuspendExecution() && !aCase.getResult().hasError() && !chatList.isEmpty()) {
 				responseEntity = new ResponseEntity<List<Chat>>(chatList, HttpStatus.OK);
@@ -65,6 +64,7 @@ public class ChatController extends BaseController {
 		}
 		return responseEntity;
 	}
+
 
 	@RequestMapping(value = "/chat/{chatId}", method = RequestMethod.GET)
 	public @ResponseBody ResponseEntity<Chat> getGroup(@PathVariable("chatId") Long chatId) {
