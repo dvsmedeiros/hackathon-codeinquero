@@ -94,6 +94,7 @@ public class DummyController extends BaseController{
 			link.setALike(50);
 			link.setDislike(10);
 			link.setChat(chat);
+			link.setLinkCategory(linkCategory);
 			
 			
 			Link link2 = new Link();
@@ -104,6 +105,7 @@ public class DummyController extends BaseController{
 			link2.setALike(25);
 			link2.setDislike(2);
 			link2.setChat(chat);
+			link2.setLinkCategory(linkCategory);
 					
 			List<Link> linkList = new ArrayList<>();
 			linkList.add(link);
