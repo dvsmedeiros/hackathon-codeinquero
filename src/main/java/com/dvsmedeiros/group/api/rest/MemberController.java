@@ -57,8 +57,8 @@ public class MemberController extends BaseController{
 	
 	
 	@RequestMapping(value = "/chat/{chatId}/member/{memberId}", method = RequestMethod.GET)
-	public @ResponseBody ResponseEntity<List<Member>> getMember(@PathVariable("memberId") Long chatId) {
-		ResponseEntity<List<Member>> responseEntity = null;		
+	public @ResponseBody ResponseEntity<Member> getMember(@PathVariable("memberId") Long chatId) {
+		ResponseEntity<Member> responseEntity = null;		
 		
 		try {
 			MemberFilter filter = new MemberFilter();
@@ -66,16 +66,23 @@ public class MemberController extends BaseController{
 			
 			BusinessCase<Member> aCase = new BusinessCaseBuilder<Member>().withName("FIND_CHAT_MEMBER_BY_ID").build();
 			Result result = appFacade.find(filter, aCase);
-			List<Member> memberList = result.getEntities();
-			if (!aCase.isSuspendExecution() && !aCase.getResult().hasError() && memberList != null) {
-				responseEntity = new ResponseEntity<List<Member>>(memberList, HttpStatus.OK);
+			Member member = result.getEntities();
+			if (!aCase.isSuspendExecution() && !aCase.getResult().hasError() && member != null) {
+				responseEntity = new ResponseEntity<Member>(member, HttpStatus.OK);
 			}
-			responseEntity = new ResponseEntity<List<Member>>(HttpStatus.NO_CONTENT);
+			responseEntity = new ResponseEntity<Member>(HttpStatus.NO_CONTENT);
 			
 		} catch (Exception e) {
-			responseEntity = new ResponseEntity<List<Member>>(HttpStatus.INTERNAL_SERVER_ERROR);
+			responseEntity = new ResponseEntity<Member>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 		return responseEntity;
+		
+		
+		
 	}
+	
+	
+	
+	
 	
 }

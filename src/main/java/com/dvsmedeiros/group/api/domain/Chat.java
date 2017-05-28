@@ -5,8 +5,10 @@ import java.util.List;
 import com.dvsmedeiros.bce.domain.DomainEntity;
 
 public class Chat extends DomainEntity {
-	private List<Link> linkList;
+	
 	private List<Member> memberList;
+	private List<Link> linkList;
+	
 	private String chatName;
 	private String photo;
 	private String description;
