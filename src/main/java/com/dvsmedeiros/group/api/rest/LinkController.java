@@ -54,9 +54,9 @@ public class LinkController extends BaseController{
 			chat.setId(chatId);
 			filter.getEntity().setChat(chat);			
 			
-			BusinessCase<Link> aCase = new BusinessCaseBuilder<Link>().build();
+			BusinessCase<Link> aCase = new BusinessCaseBuilder<Link>().withName("FIND_LINK_BY_LINK_AND_CHAT_ID").build();
 			Result result = appFacade.find(filter, aCase);
-			List<Link> linkList = result.getEntities();
+			List<Link> linkList = result.getEntity();
 			if (!aCase.isSuspendExecution() && !aCase.getResult().hasError() && linkList != null) {
 				responseEntity = new ResponseEntity<List<Link>>(linkList, HttpStatus.OK);
 			}else{
@@ -82,9 +82,9 @@ public class LinkController extends BaseController{
 			filter.getEntity().setChat(chat);
 			
 			// CRIAR CONSULTA PELO FILTRO
-			BusinessCase<Link> aCase = new BusinessCaseBuilder<Link>().build();
+			BusinessCase<Link> aCase = new BusinessCaseBuilder<Link>().withName("FIND_LINK_BY_LINK_AND_CHAT_ID").build();
 			Result result = appFacade.find(filter, aCase);
-			List<Link> linkList = result.getEntities();			
+			List<Link> linkList = result.getEntity();			
 			
 			
 			if (!aCase.isSuspendExecution() && !aCase.getResult().hasError() && !ListUtils.isEmpty(linkList)) {
@@ -107,7 +107,7 @@ public class LinkController extends BaseController{
 		
 		try {
 			Link link = linkAdapter.adapt(linkRequest);
-			BusinessCase<Link> aCase = new BusinessCaseBuilder<Link>().build();
+			BusinessCase<Link> aCase = new BusinessCaseBuilder<Link>().withName("SAVE_LINK").build();
 			navigator.run(link, aCase);			
 			if (aCase.isSuspendExecution() || aCase.getResult().hasError() ) {
 				responseEntity = new ResponseEntity<Link>(HttpStatus.INTERNAL_SERVER_ERROR);
@@ -122,7 +122,31 @@ public class LinkController extends BaseController{
 		responseEntity = new ResponseEntity<Link>(HttpStatus.OK);
 		
 		return responseEntity;
-
+	}
+	
+	
+	@ResponseBody
+	@RequestMapping(value = "/link", method = RequestMethod.PUT)
+	public ResponseEntity<Link> putLink(@RequestBody LinkRequest linkRequest) {
+		ResponseEntity<Link> responseEntity;
+		
+		try {
+			Link link = linkAdapter.adapt(linkRequest);
+			BusinessCase<Link> aCase = new BusinessCaseBuilder<Link>().withName("UPDATE_LINK").build();
+			navigator.run(link, aCase);			
+			if (aCase.isSuspendExecution() || aCase.getResult().hasError() ) {
+				responseEntity = new ResponseEntity<Link>(HttpStatus.INTERNAL_SERVER_ERROR);
+			}else{
+				responseEntity = new ResponseEntity<Link>(HttpStatus.OK);
+			}
+		} catch (Exception e) {
+			responseEntity = new ResponseEntity<Link>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		
+		
+		responseEntity = new ResponseEntity<Link>(HttpStatus.OK);
+		
+		return responseEntity;
 	}
 
 }

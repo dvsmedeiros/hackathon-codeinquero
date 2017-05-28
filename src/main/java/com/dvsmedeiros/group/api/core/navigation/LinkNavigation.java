@@ -6,22 +6,44 @@ import org.springframework.context.annotation.Configuration;
 
 import com.dvsmedeiros.bce.core.controller.impl.EntityRuleDefinition;
 import com.dvsmedeiros.bce.domain.Filter;
-import com.dvsmedeiros.group.api.domain.Chat;
+import com.dvsmedeiros.group.api.domain.Link;
 
 @Configuration
 public class LinkNavigation {
 	
 	@Autowired
-	private FindChatByChatId findChatByChatId;
+	private LinkExistingMemberActivity linkExistingMemberActivity;
+	
+	@Autowired
+	private FindLinkByIdMessageAndChatId findLinkByIdMessageAndChatId;
 	
 	
 	
 	@Bean(name="SAVE_LINK")
-	public EntityRuleDefinition<Filter<Chat>> navigation() {
+	public EntityRuleDefinition<Link> saveLinkNavigation() {
 
-		EntityRuleDefinition<Filter<Chat>> activities = new EntityRuleDefinition<>();
-		activities.addActivity(findChatByChatId);
+		EntityRuleDefinition<Link> activities = new EntityRuleDefinition<>();
+		activities.addActivity(linkExistingMemberActivity); 
 		return activities;
 	}
+	
+	
+	@Bean(name="UPDATE_LINK")
+	public EntityRuleDefinition<Link> updateLinkNavigation() {
+
+		EntityRuleDefinition<Link> activities = new EntityRuleDefinition<>();
+		activities.addActivity(linkExistingMemberActivity); 
+		return activities;
+	}
+	
+	@Bean(name="FIND_LINK_BY_LINK_AND_CHAT_ID")
+	public EntityRuleDefinition<Filter<Link>> findLinkByMessageIdNavigation() {
+		EntityRuleDefinition<Filter<Link>> activities = new EntityRuleDefinition<>();
+		activities.addActivity(findLinkByIdMessageAndChatId); 
+		return activities;
+	}
+	
+	
+	
 
 }

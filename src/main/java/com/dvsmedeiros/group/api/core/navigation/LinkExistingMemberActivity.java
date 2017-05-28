@@ -16,11 +16,11 @@ import com.dvsmedeiros.group.api.domain.Chat;
 import com.dvsmedeiros.group.api.domain.Link;
 import com.dvsmedeiros.group.api.domain.Member;
 
-public class LinkExistingMemberValidator implements IStrategy<Link>{
+public class LinkExistingMemberActivity implements IStrategy<Link> {
 	@Autowired
 	@Qualifier("applicationFacade")
 	private ApplicationFacade<Member> appFacade;
-	
+
 	@Autowired
 	@Qualifier("applicationFacade")
 	private ApplicationFacade<Chat> chatFacade;
@@ -31,7 +31,7 @@ public class LinkExistingMemberValidator implements IStrategy<Link>{
 		Filter<Member> filter = new Filter<>(Member.class);
 		filter.getEntity().setMemberId(aEntity.getMember().getMemberId());
 
-		List<Member> memberList = appFacade.find(filter, new BusinessCaseBuilder<Member>().withName("FIND_MEMBER_BY_MEMBER_ID").build()).getEntities();
+		List<Member> memberList = appFacade.find(filter, new BusinessCaseBuilder<Member>().withName("FIND_MEMBER_BY_MEMBER_ID").build()).getEntity();
 		if (!ListUtils.isEmpty(memberList)) {
 			aEntity.setMember(memberList.get(0));			
 		}else{
@@ -58,9 +58,13 @@ public class LinkExistingMemberValidator implements IStrategy<Link>{
 			}
 			if(!exists){
 				chat.getMemberList().add(aEntity.getMember());
-				chatFacade.update(chat, new BusinessCaseBuilder<Chat>().build());				
 			}
+			if(ListUtils.isEmpty(chat.getLinkList())){
+				chat.setLinkList(new ArrayList<>());
+			}
+			chat.getLinkList().add(aEntity);
 			
+			chatFacade.update(chat, new BusinessCaseBuilder<Chat>().build());				
 		}		
 		
 		

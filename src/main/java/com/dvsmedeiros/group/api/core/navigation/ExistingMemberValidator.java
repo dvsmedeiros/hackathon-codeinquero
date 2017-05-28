@@ -26,7 +26,7 @@ public class ExistingMemberValidator implements IStrategy<Member> {
 		Filter<Member> filter = new Filter<>(Member.class);
 		filter.getEntity().setMemberId(aEntity.getMemberId());
 
-		List<Member> memberList = appFacade.find(filter, new BusinessCaseBuilder<Member>().withName("FIND_MEMBER_BY_MEMBER_ID").build()).getEntities();
+		List<Member> memberList = appFacade.find(filter, new BusinessCaseBuilder<Member>().withName("FIND_MEMBER_BY_MEMBER_ID").build()).getEntity();
 		if (!ListUtils.isEmpty(memberList)) {
 			aEntity = memberList.get(0);
 			aCase.suspendExecution();
