@@ -108,7 +108,7 @@ public class LinkController extends BaseController{
 		try {
 			Link link = linkAdapter.adapt(linkRequest);
 			BusinessCase<Link> aCase = new BusinessCaseBuilder<Link>().build();
-			appFacade.save(link, aCase);			
+			navigator.run(link, aCase);			
 			if (aCase.isSuspendExecution() || aCase.getResult().hasError() ) {
 				responseEntity = new ResponseEntity<Link>(HttpStatus.INTERNAL_SERVER_ERROR);
 			}else{

@@ -25,8 +25,8 @@ public class Chat extends DomainEntity {
 	private Integer chatId;
 	@ManyToMany(cascade = CascadeType.ALL)
 	@LazyCollection(LazyCollectionOption.FALSE)
-	@JoinTable(name = "GROUP_MEMBER", joinColumns = {
-			@JoinColumn(name = "GROUP_ID", nullable = false, updatable = false) },
+	@JoinTable(name = "CHAT_MEMBER", joinColumns = {
+			@JoinColumn(name = "CHAT_ID", nullable = false, updatable = false) },
 			inverseJoinColumns = { @JoinColumn(name = "MEMBER_ID",
 					nullable = true, updatable = false) })
 	private List<Member> memberList;

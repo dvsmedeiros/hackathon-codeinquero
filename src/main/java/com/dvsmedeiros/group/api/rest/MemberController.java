@@ -120,8 +120,8 @@ public class MemberController extends BaseController {
 			Filter<Member> memberFilter = new Filter<>(Member.class);
 			memberFilter.getEntity().setMemberId(memberRequest.getId());
 
-			List<Member> memberList = appFacade.find(memberFilter, new BusinessCaseBuilder<Member>().build())
-					.getEntities();
+			List<Member> memberList = appFacade.find(memberFilter, new BusinessCaseBuilder<Member>().withName("FIND_MEMBER_BY_MEMBER_ID").build())
+					.getEntity();
 
 			if (!ListUtils.isEmpty(memberList)) {
 				member = memberList.get(0);
@@ -129,7 +129,7 @@ public class MemberController extends BaseController {
 				Filter<Chat> filter = new Filter<>(Chat.class);
 				filter.getEntity().setChatId(memberRequest.getChatId());
 
-				List temp = chatFacade.find(filter, new BusinessCaseBuilder<Chat>().build()).getEntities();
+				List temp = chatFacade.find(filter, new BusinessCaseBuilder<Chat>().withName("FIND_CHAT_BY_ID").build()).getEntity();
 				List<Chat> chatList = gambiarra.makeTheMagic(temp);
 
 				if (!ListUtils.isEmpty(chatList)) {
@@ -162,7 +162,7 @@ public class MemberController extends BaseController {
 			Filter<Chat> filter = new Filter<>(Chat.class);
 			filter.getEntity().setChatId(memberRequest.getChatId());
 
-			List temp = chatFacade.find(filter, new BusinessCaseBuilder<Chat>().build()).getEntities();
+			List temp = chatFacade.find(filter, new BusinessCaseBuilder<Chat>().withName("FIND_CHAT_BY_ID").build()).getEntity();
 			List<Chat> chatList = gambiarra.makeTheMagic(temp);
 
 			if (!ListUtils.isEmpty(chatList)) {
