@@ -147,9 +147,9 @@ public class ChatController extends BaseController {
 		Link link = new Link();
 		link.setIdMessage("000000001");
 		link.setInsertionDate(Calendar.getInstance());
-		link.setLink("www.teste.com");
+		link.setaLink("www.teste.com");
 		link.setMember(member);
-		link.setLike(50);
+		link.setaLike(50);
 		link.setDislike(10);
 		link.setId(1);
 		link.setChat(chat);

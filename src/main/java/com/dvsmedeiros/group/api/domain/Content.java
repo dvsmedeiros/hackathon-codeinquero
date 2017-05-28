@@ -15,7 +15,7 @@ import com.dvsmedeiros.bce.domain.DomainEntity;
 public class Content extends DomainEntity {
 	private String idMessage;
 
-	private Integer like;
+	private Integer aLike;
 
 	private Integer dislike;
 
@@ -49,14 +49,6 @@ public class Content extends DomainEntity {
 		this.chat = chat;
 	}
 
-	public Integer getLike() {
-		return like;
-	}
-
-	public void setLike(Integer like) {
-		this.like = like;
-	}
-
 	public Integer getDislike() {
 		return dislike;
 	}
@@ -65,4 +57,12 @@ public class Content extends DomainEntity {
 		this.dislike = dislike;
 	}
 
+	public Integer getaLike() {
+		return aLike;
+	}
+
+	public void setaLike(Integer aLike) {
+		this.aLike = aLike;
+	}
+	
 }

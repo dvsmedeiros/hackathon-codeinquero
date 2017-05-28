@@ -11,19 +11,19 @@ import org.springframework.stereotype.Component;
 @Entity
 @Table(name = "CONTENT_LINKS")
 public class Link extends Content {
-	
-	private String link;	
-	
+
+	private String aLink;
+
 	@ManyToOne(cascade = CascadeType.ALL)
 	private LinkCategory linkCategory;
 
-	public String getLink() {
-		return link;
+	public String getaLink() {
+		return aLink;
 	}
 
-	public void setLink(String link) {
-		this.link = link;
-	}	
+	public void setaLink(String aLink) {
+		this.aLink = aLink;
+	}
 
 	public LinkCategory getLinkCategory() {
 		return linkCategory;
