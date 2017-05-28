@@ -1,5 +1,6 @@
 package com.dvsmedeiros.group.api.rest;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,7 @@ import com.dvsmedeiros.bce.domain.Result;
 import com.dvsmedeiros.group.api.controller.BaseController;
 import com.dvsmedeiros.group.api.domain.Chat;
 import com.dvsmedeiros.group.api.rest.adapter.ChatAdapter;
+import com.dvsmedeiros.group.api.rest.gambiarra.Gambiarra;
 import com.dvsmedeiros.group.api.rest.request.ChatRequest;
 
 @Controller
@@ -37,6 +39,9 @@ public class ChatController extends BaseController {
 	@Autowired
 	@Qualifier("chatAdapter")
 	private ChatAdapter chatAdapter;
+	
+	@Autowired
+	private Gambiarra gambiarra;
 
 	@RequestMapping(value = "/chat", method = RequestMethod.GET)
 	public @ResponseBody ResponseEntity<List<Chat>> getAllGroups() {
@@ -45,7 +50,10 @@ public class ChatController extends BaseController {
 		try {
 			BusinessCase<Chat> aCase = new BusinessCaseBuilder<Chat>().build();
 			Result result = appFacade.findAll(Chat.class, aCase);
-			List<Chat> chatList = result.getEntities();
+			List temp = result.getEntities();
+			
+			List<Chat> chatList = gambiarra.makeTheMagic(temp);
+			
 			if (!aCase.isSuspendExecution() && !aCase.getResult().hasError() && !chatList.isEmpty()) {
 				responseEntity = new ResponseEntity<List<Chat>>(chatList, HttpStatus.OK);
 			}else{				
@@ -56,6 +64,7 @@ public class ChatController extends BaseController {
 		}
 		return responseEntity;
 	}
+
 
 	@RequestMapping(value = "/chat/{chatId}", method = RequestMethod.GET)
 	public @ResponseBody ResponseEntity<Chat> getGroup(@PathVariable("chatId") Long chatId) {
