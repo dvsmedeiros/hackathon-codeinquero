@@ -108,7 +108,32 @@ public class MemberController extends BaseController {
 		return responseEntity;
 
 	}
+	
+	@RequestMapping(value = "/member/{memberId}", method = RequestMethod.GET)
+	public @ResponseBody ResponseEntity<Member> getMember(@PathVariable("memberId") Integer memberId) {
+		ResponseEntity<Member> responseEntity = null;
 
+		try {
+			Filter<Member> filter = new Filter<>(Member.class);
+			filter.getEntity().setMemberId(memberId);
+
+			BusinessCase<Member> aCase = new BusinessCaseBuilder<Member>().withName("FIND_MEMBER_BY_MEMBER_ID").build();
+			Result result = appFacade.find(filter, aCase);
+			List<Member> memberList = result.getEntity();
+			if (!aCase.isSuspendExecution() && !aCase.getResult().hasError() && memberList != null) {
+				Member member = memberList.get(0);
+				responseEntity = new ResponseEntity<Member>(member, HttpStatus.OK);
+			} else {
+				responseEntity = new ResponseEntity<Member>(HttpStatus.NO_CONTENT);
+			}
+
+		} catch (Exception e) {
+			responseEntity = new ResponseEntity<Member>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		return responseEntity;
+
+	}
+	
 	@ResponseBody
 	@RequestMapping(value = "/member", method = RequestMethod.DELETE)
 	public ResponseEntity<Member> deleteMember(@RequestBody MemberRequest memberRequest) {
