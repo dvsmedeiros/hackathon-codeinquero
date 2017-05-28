@@ -9,6 +9,6 @@ import com.dvsmedeiros.group.api.domain.Link;
 
 @Component
 public interface LinkRepository extends GenericRepository<Link> {
-	public List<Link> findByChatId(Integer idMessage, Integer chatId);
+	public List<Link> findByIdMessageAndChat_chatId(Integer idMessage, Integer chatId);
 
 }

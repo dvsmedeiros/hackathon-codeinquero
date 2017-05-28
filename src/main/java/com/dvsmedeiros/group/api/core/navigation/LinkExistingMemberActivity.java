@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Component;
 import org.thymeleaf.util.ListUtils;
 
 import com.dvsmedeiros.bce.core.controller.INavigationCase;
@@ -16,6 +17,7 @@ import com.dvsmedeiros.group.api.domain.Chat;
 import com.dvsmedeiros.group.api.domain.Link;
 import com.dvsmedeiros.group.api.domain.Member;
 
+@Component
 public class LinkExistingMemberActivity implements IStrategy<Link> {
 	@Autowired
 	@Qualifier("applicationFacade")
@@ -24,6 +26,10 @@ public class LinkExistingMemberActivity implements IStrategy<Link> {
 	@Autowired
 	@Qualifier("applicationFacade")
 	private ApplicationFacade<Chat> chatFacade;
+	
+	@Autowired
+	@Qualifier("applicationFacade")
+	private ApplicationFacade<Link> linkFacade;
 
 	@Override
 	public void process(Link aEntity, INavigationCase<Link> aCase) {
@@ -56,14 +62,16 @@ public class LinkExistingMemberActivity implements IStrategy<Link> {
 					break;
 				}
 			}
-			if(!exists){
+			if(!exists){				
 				chat.getMemberList().add(aEntity.getMember());
 			}
+			
 			if(ListUtils.isEmpty(chat.getLinkList())){
 				chat.setLinkList(new ArrayList<>());
 			}
 			chat.getLinkList().add(aEntity);
 			
+			linkFacade.save(aEntity, new BusinessCaseBuilder<Link>().build());
 			chatFacade.update(chat, new BusinessCaseBuilder<Chat>().build());				
 		}		
 		

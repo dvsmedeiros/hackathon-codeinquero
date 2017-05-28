@@ -15,6 +15,9 @@ public class LinkNavigation {
 	private LinkExistingMemberActivity linkExistingMemberActivity;
 	
 	@Autowired
+	private UpdateLinkActivity updateLinkActivity;
+	
+	@Autowired
 	private FindLinkByIdMessageAndChatId findLinkByIdMessageAndChatId;
 	
 	
@@ -32,7 +35,7 @@ public class LinkNavigation {
 	public EntityRuleDefinition<Link> updateLinkNavigation() {
 
 		EntityRuleDefinition<Link> activities = new EntityRuleDefinition<>();
-		activities.addActivity(linkExistingMemberActivity); 
+		activities.addActivity(updateLinkActivity); 
 		return activities;
 	}
 	

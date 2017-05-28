@@ -63,7 +63,7 @@ public class MemberController extends BaseController {
 
 			filter.getEntity().setChatList(chatList);
 
-			BusinessCase<Member> aCase = new BusinessCaseBuilder<Member>().build();
+			BusinessCase<Member> aCase = new BusinessCaseBuilder<Member>().withName("FIND_MEMBER_BY_CHAT_ID").build();
 			Result result = appFacade.find(filter, aCase);
 			List<Member> memberList = result.getEntities();
 			if (!aCase.isSuspendExecution() && !aCase.getResult().hasError() && memberList != null) {

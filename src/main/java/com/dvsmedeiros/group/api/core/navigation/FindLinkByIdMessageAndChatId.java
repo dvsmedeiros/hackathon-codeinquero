@@ -22,7 +22,7 @@ public class FindLinkByIdMessageAndChatId implements IStrategy<Filter<Link>>{
 
 	@Override
 	public void process(Filter<Link> aEntity, INavigationCase<Filter<Link>> aCase) {
-		List<Link> chatList = linkRepository.findByChatId(aEntity.getEntity().getIdMessage(), aEntity.getEntity().getChat().getChatId());
+		List<Link> chatList = linkRepository.findByIdMessageAndChat_chatId(aEntity.getEntity().getIdMessage(), aEntity.getEntity().getChat().getChatId());
 		aCase.getResult().addEntity(chatList);		
 	}
 

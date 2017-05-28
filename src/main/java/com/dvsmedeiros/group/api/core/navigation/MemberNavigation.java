@@ -19,6 +19,10 @@ public class MemberNavigation {
 	
 	@Autowired
 	private FindMemberByMemberId findMemberByMemberId;
+		
+	@Autowired
+	private FindMemberByChatId FindMemberByChatId;
+	
 	
 	
 	@Bean(name="SAVE_MEMBER")
@@ -38,5 +42,14 @@ public class MemberNavigation {
 		activities.addActivity(findMemberByMemberId);
 		return activities;
 	}
+	
+	@Bean(name="FIND_MEMBER_BY_CHAT_ID")
+	public EntityRuleDefinition<Filter<Member>> findChatIdNavigation() {
+
+		EntityRuleDefinition<Filter<Member>> activities = new EntityRuleDefinition<>();
+		activities.addActivity(FindMemberByChatId);
+		return activities;
+	}
+	
 	
 }
