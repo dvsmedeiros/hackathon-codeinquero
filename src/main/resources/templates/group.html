@@ -1,1 +1,43 @@
-{{message}}
+<div class="text-center">
+	<h1>{{chat.chatName}}</h1>
+	<br/>
+</div>
+<p ng-show="message.length" class="alert alert-info">{{message}}</p>
+<div class="col-md-4">
+	<div class="panel panel-default panel-primary">
+		<div class="panel-heading">
+			<h3 class="text-center panel-title">MEMBERS</h3>
+		</div>
+		<div class="panel-body">
+			<div class="col-md-4" ng-repeat="member in chat.memberList | filter: filter">
+				<ul class="list-group list-inline">
+			        <div class="text-center">
+			            <li class="list-item"><a href="#"><img class="img-circle" src="http://placehold.it/80x80"/></a></li>
+			            <li class="list-item text-center"><a href="/#/profile/{{member.memberId}}">{{member.firstName}}</a></li>
+			        </div>
+				</ul>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="col-md-8">
+	<div class="panel panel-default panel-primary">
+		<div class="panel-heading">
+			<h3 class="panel-title text-center">CONTENT</h3>
+		</div>
+		<div class="panel-body"> 
+			<div ng-repeat="link in chat.linkList | orderBy : aLike">
+				<div class="panel panel-default">
+					<div class="panel-body">
+						<a href="{{link.alink}}" target="_blank">{{link.alink}}</a>
+						<div class="pull-right">
+							<span class="glyphicon glyphicon-thumbs-up"></span> {{link.alike}}
+							&nbsp;<span class="glyphicon glyphicon-thumbs-down"></span> {{link.dislike}}
+						</div>
+						<p>{{link.insertionDate}}</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

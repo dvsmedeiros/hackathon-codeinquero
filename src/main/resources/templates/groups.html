@@ -1,1 +1,33 @@
-{{message}}
+<div class="text-center">
+	<h1>GROUPS</h1>
+	<br/>
+</div>
+
+<p ng-show="message.length" class="alert alert-info">{{message}}</p>
+
+<div class="col-md-12">
+	<div class="input-group">
+ 		<span class="input-group-addon"><span class="glyphicon glyphicon-search"></span></span>
+    	<input class="form-control" ng-model="filter"></input>
+   	</div>
+	<br />
+</div>
+<div class="col-md-4" ng-repeat="chat in chats | filter: filter">
+	<div class="panel panel-default panel-primary">
+		<div class="panel-heading text-center">
+			<h4 class="panel-title"><a href="/#/group/{{chat.id}}">{{chat.chatName}}</a></h4>
+		</div>
+		<div class="panel-body">
+			<div class="col-md-5">
+				<img class="img-responsive img-circle pull-left" src="http://placehold.it/150x150" alt=""/>
+			</div>
+			<div class="col-md-7">
+				{{chat.description}}
+				<br/><br/>
+				<p>{{chat.insertionDate}}</p>
+				<span class="glyphicon glyphicon-list-alt"></span> {{chat.linkList.length}} 
+				&nbsp;<span class="glyphicon glyphicon-user"></span> {{chat.memberList.length}}
+			</div>
+		</div>
+	</div>
+</div>

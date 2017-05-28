@@ -1,4 +1,4 @@
-angular.module('app', ['ngRoute', 'ngAnimate'])
+angular.module('app', ['ngRoute', 'ngAnimate', 'appServices'])
 	.config(function($routeProvider, $locationProvider, $httpProvider) {
 
 		//$locationProvider.html5Mode(true);
@@ -22,7 +22,7 @@ angular.module('app', ['ngRoute', 'ngAnimate'])
 		});
 		
 		//PROFILE
-		$routeProvider.when('/profile', {
+		$routeProvider.when('/profile/:memberId', {
 			templateUrl: 'profile.html',
 			controller: 'ProfileController'
 		});
